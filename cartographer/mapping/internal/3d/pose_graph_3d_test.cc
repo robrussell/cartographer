@@ -38,10 +38,11 @@ class MockOptimizationProblem3D : public OptimizationProblem3D {
       : OptimizationProblem3D(OptimizationProblemOptions{}) {}
   ~MockOptimizationProblem3D() override = default;
 
-  MOCK_METHOD3(Solve,
-               void(const std::vector<Constraint> &,
-                    const std::map<int, PoseGraphInterface::TrajectoryState> &,
-                    const std::map<std::string, LandmarkNode> &));
+  MOCK_METHOD(void, Solve,
+              (const std::vector<Constraint> &,
+               (const std::map<int, PoseGraphInterface::TrajectoryState> &),
+               (const std::map<string, LandmarkNode> &)),
+              (override));
 };
 
 class PoseGraph3DForTesting : public PoseGraph3D {

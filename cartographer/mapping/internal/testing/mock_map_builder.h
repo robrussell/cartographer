@@ -32,33 +32,35 @@ namespace testing {
 
 class MockMapBuilder : public mapping::MapBuilderInterface {
  public:
-  MOCK_METHOD3(
-      AddTrajectoryBuilder,
-      int(const std::set<SensorId> &expected_sensor_ids,
-          const mapping::proto::TrajectoryBuilderOptions &trajectory_options,
-          mapping::MapBuilderInterface::LocalSlamResultCallback
-              local_slam_result_callback));
-  MOCK_METHOD1(AddTrajectoryForDeserialization,
-               int(const mapping::proto::TrajectoryBuilderOptionsWithSensorIds
-                       &options_with_sensor_ids_proto));
-  MOCK_CONST_METHOD1(GetTrajectoryBuilder,
-                     mapping::TrajectoryBuilderInterface *(int trajectory_id));
-  MOCK_METHOD1(FinishTrajectory, void(int trajectory_id));
-  MOCK_METHOD2(SubmapToProto,
-               std::string(const mapping::SubmapId &,
-                           mapping::proto::SubmapQuery::Response *));
-  MOCK_METHOD2(SerializeState, void(bool, io::ProtoStreamWriterInterface *));
-  MOCK_METHOD2(SerializeStateToFile, bool(bool, const std::string &));
-  MOCK_METHOD2(LoadState,
-               std::map<int, int>(io::ProtoStreamReaderInterface *, bool));
-  MOCK_METHOD2(LoadStateFromFile,
-               std::map<int, int>(const std::string &, bool));
-  MOCK_CONST_METHOD0(num_trajectory_builders, int());
-  MOCK_METHOD0(pose_graph, mapping::PoseGraphInterface *());
-  MOCK_CONST_METHOD0(
-      GetAllTrajectoryBuilderOptions,
-      const std::vector<mapping::proto::TrajectoryBuilderOptionsWithSensorIds>
-          &());
+  MOCK_METHOD(
+      int, AddTrajectoryBuilder,
+      (const std::set<SensorId>& expected_sensor_ids,
+       const mapping::proto::TrajectoryBuilderOptions& trajectory_options,
+       mapping::MapBuilderInterface::LocalSlamResultCallback
+           local_slam_result_callback),
+      (override));
+  MOCK_METHOD(int, AddTrajectoryForDeserialization,
+              (const mapping::proto::TrajectoryBuilderOptionsWithSensorIds&
+                   options_with_sensor_ids_proto),
+              (override));
+  MOCK_METHOD(mapping::TrajectoryBuilderInterface*, GetTrajectoryBuilder,
+              (int trajectory_id), (const, override));
+  MOCK_METHOD(void, FinishTrajectory, (int trajectory_id), (override));
+  MOCK_METHOD(string, SubmapToProto,
+              (const mapping::SubmapId&,
+               mapping::proto::SubmapQuery::Response*),
+              (override));
+  MOCK_METHOD(void, SerializeState, (bool, io::ProtoStreamWriterInterface*),
+              (override));
+  MOCK_METHOD(bool, SerializeStateToFile, (bool, const string&), (override));
+  MOCK_METHOD((std::map<int, int>), LoadState,
+              (io::ProtoStreamReaderInterface*, bool), (override));
+  MOCK_METHOD((std::map<int, int>), LoadStateFromFile, (const string&, bool),
+              (override));
+  MOCK_METHOD(int, num_trajectory_builders, (), (const, override));
+  MOCK_METHOD(mapping::PoseGraphInterface*, pose_graph, (), (override));
+  MOCK_METHOD(const std::vector<
+              mapping::proto::TrajectoryBuilderOptionsWithSensorIds>&());
 };
 
 }  // namespace testing

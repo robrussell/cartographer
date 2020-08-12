@@ -31,20 +31,21 @@ class MockTrajectoryBuilder : public mapping::TrajectoryBuilderInterface {
   MockTrajectoryBuilder() = default;
   ~MockTrajectoryBuilder() override = default;
 
-  MOCK_METHOD2(AddSensorData,
-               void(const std::string &, const sensor::TimedPointCloudData &));
-  MOCK_METHOD2(AddSensorData,
-               void(const std::string &, const sensor::ImuData &));
-  MOCK_METHOD2(AddSensorData,
-               void(const std::string &, const sensor::OdometryData &));
-  MOCK_METHOD2(AddSensorData,
-               void(const std::string &, const sensor::FixedFramePoseData &));
-  MOCK_METHOD2(AddSensorData,
-               void(const std::string &, const sensor::LandmarkData &));
+  MOCK_METHOD(void, AddSensorData,
+              (const string&, const sensor::TimedPointCloudData&), (override));
+  MOCK_METHOD(void, AddSensorData, (const string&, const sensor::ImuData&),
+              (override));
+  MOCK_METHOD(void, AddSensorData, (const string&, const sensor::OdometryData&),
+              (override));
+  MOCK_METHOD(void, AddSensorData,
+              (const string&, const sensor::FixedFramePoseData&), (override));
+  MOCK_METHOD(void, AddSensorData, (const string&, const sensor::LandmarkData&),
+              (override));
 
   // Some of the platforms we run on may ship with a version of gmock which does
   // not yet support move-only types.
-  MOCK_METHOD1(DoAddLocalSlamResultData, void(mapping::LocalSlamResultData *));
+  MOCK_METHOD(void, DoAddLocalSlamResultData, (mapping::LocalSlamResultData*),
+              (override));
   void AddLocalSlamResultData(std::unique_ptr<mapping::LocalSlamResultData>
                                   local_slam_result_data) override {
     DoAddLocalSlamResultData(local_slam_result_data.get());

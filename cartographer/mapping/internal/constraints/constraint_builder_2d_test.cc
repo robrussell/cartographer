@@ -33,7 +33,7 @@ namespace {
 
 class MockCallback {
  public:
-  MOCK_METHOD1(Run, void(const ConstraintBuilder2D::Result&));
+  MOCK_METHOD(void, Run, (const ConstraintBuilder2D::Result&));
 };
 
 class ConstraintBuilder2DTest : public ::testing::Test {

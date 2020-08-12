@@ -31,35 +31,33 @@ class MockPoseGraph : public mapping::PoseGraphInterface {
   MockPoseGraph() = default;
   ~MockPoseGraph() override = default;
 
-  MOCK_METHOD0(RunFinalOptimization, void());
-  MOCK_CONST_METHOD0(GetAllSubmapData,
-                     mapping::MapById<mapping::SubmapId, SubmapData>());
-  MOCK_CONST_METHOD0(GetAllSubmapPoses,
-                     mapping::MapById<mapping::SubmapId, SubmapPose>());
-  MOCK_CONST_METHOD1(GetLocalToGlobalTransform, transform::Rigid3d(int));
-  MOCK_CONST_METHOD0(
-      GetTrajectoryNodes,
-      mapping::MapById<mapping::NodeId, mapping::TrajectoryNode>());
-  MOCK_CONST_METHOD0(
-      GetTrajectoryNodePoses,
-      mapping::MapById<mapping::NodeId, mapping::TrajectoryNodePose>());
-  MOCK_CONST_METHOD0(
-      GetTrajectoryStates,
-      std::map<int, mapping::PoseGraphInterface::TrajectoryState>());
-  MOCK_CONST_METHOD0(GetLandmarkPoses,
-                     std::map<std::string, transform::Rigid3d>());
-  MOCK_METHOD3(SetLandmarkPose,
-               void(const std::string&, const transform::Rigid3d&, const bool));
-  MOCK_METHOD1(DeleteTrajectory, void(int));
-  MOCK_CONST_METHOD1(IsTrajectoryFinished, bool(int));
-  MOCK_CONST_METHOD1(IsTrajectoryFrozen, bool(int));
-  MOCK_CONST_METHOD0(
-      GetTrajectoryData,
-      std::map<int, mapping::PoseGraphInterface::TrajectoryData>());
-  MOCK_CONST_METHOD0(constraints, std::vector<Constraint>());
-  MOCK_CONST_METHOD1(ToProto, mapping::proto::PoseGraph(bool));
-  MOCK_METHOD1(SetGlobalSlamOptimizationCallback,
-               void(GlobalSlamOptimizationCallback callback));
+  MOCK_METHOD(void, RunFinalOptimization, (), (override));
+  MOCK_METHOD((mapping::MapById<mapping::SubmapId, SubmapData>),
+              GetAllSubmapData, (), (const, override));
+  MOCK_METHOD((mapping::MapById<mapping::SubmapId, SubmapPose>),
+              GetAllSubmapPoses, (), (const, override));
+  MOCK_METHOD(transform::Rigid3d, GetLocalToGlobalTransform, (int),
+              (const, override));
+  MOCK_METHOD((mapping::MapById<mapping::NodeId, mapping::TrajectoryNode>),
+              GetTrajectoryNodes, (), (const, override));
+  MOCK_METHOD((mapping::MapById<mapping::NodeId, mapping::TrajectoryNodePose>),
+              GetTrajectoryNodePoses, (), (const, override));
+  MOCK_METHOD((std::map<int, mapping::PoseGraphInterface::TrajectoryState>),
+              GetTrajectoryStates, (), (const, override));
+  MOCK_METHOD((std::map<string, transform::Rigid3d>), GetLandmarkPoses, (),
+              (const, override));
+  MOCK_METHOD(void, SetLandmarkPose,
+              (const string&, const transform::Rigid3d&, const bool),
+              (override));
+  MOCK_METHOD(void, DeleteTrajectory, (int), (override));
+  MOCK_METHOD(bool, IsTrajectoryFinished, (int), (const, override));
+  MOCK_METHOD(bool, IsTrajectoryFrozen, (int), (const, override));
+  MOCK_METHOD((std::map<int, mapping::PoseGraphInterface::TrajectoryData>),
+              GetTrajectoryData, (), (const, override));
+  MOCK_METHOD(std::vector<Constraint>, constraints, (), (const, override));
+  MOCK_METHOD(mapping::proto::PoseGraph, ToProto, (bool), (const, override));
+  MOCK_METHOD(void, SetGlobalSlamOptimizationCallback,
+              (GlobalSlamOptimizationCallback callback), (override));
 };
 
 }  // namespace testing
